@@ -69,6 +69,10 @@ def predict(image: np.ndarray, model) -> np.ndarray:
 
 def scale_contour(cnt, scale):
     M = cv2.moments(cnt)
+
+    if M['m00'] == 0:
+        return cnt
+
     cx = int(M['m10']/M['m00'])
     cy = int(M['m01']/M['m00'])
 

@@ -161,8 +161,10 @@ def predict_annotation_for_db_image(dataset: str, filename: str):
     for contour in contours:
         scaled_contours.append(scale_contour(contour, 1.075))
 
+    h, w, _ = image.shape
+
     # Draw contours
-    cv2.drawContours(annotation, scaled_contours, -1, (38, 166, 154, 0.1), math.floor(image.size * 2.5e-5), cv2.LINE_AA)
+    cv2.drawContours(annotation, scaled_contours, -1, (38, 166, 154, 0.1), math.floor(20 / (1225 / 966) * (h / w)), cv2.LINE_AA)
 
     # Make contours a bit transparent
     annotation = cv2.addWeighted(image, alpha, annotation, 1 - alpha, 0)
@@ -175,7 +177,7 @@ def predict_annotation_for_db_image(dataset: str, filename: str):
     return response
 
 
-# Endpoint for custom images
+# Endpoint for custom images : MASK
 @app.route('/detect/mask/custom')
 def predict_mask_for_custom_image():
     image_url = request.args.get('url')
@@ -191,6 +193,81 @@ def predict_mask_for_custom_image():
 
     # Send prediction as JPEG
     retval, buffer = cv2.imencode('.jpg', mask.astype(np.uint8))
+    response = make_response(buffer.tobytes())
+    response.headers['Content-Type'] = 'image/jpeg'
+
+    return response
+
+
+# Endpoint for custom images : HIGHLIGHT
+@app.route('/detect/highlight/custom')
+def predict_highlight_for_custom_image():
+    image_url = request.args.get('url')
+
+    if image_url is None:
+        return 'bad request!', 400
+
+    alpha = 0.4
+
+    # Get image
+    image = read_image(image_url, isUrl=True)
+
+    # Run prediction
+    mask = predict(image, model)
+    image = image[0] * 255.0
+
+    highlight = cv2.addWeighted(image, alpha, mask, 1 - alpha, 0)
+
+    # Send prediction as JPEG
+    retval, buffer = cv2.imencode('.jpg', highlight.astype(np.uint8))
+    response = make_response(buffer.tobytes())
+    response.headers['Content-Type'] = 'image/jpeg'
+
+    return response
+
+
+# Endpoint for custom images : ANNOTATION
+@app.route('/detect/annotation/custom')
+def predict_annotation_for_custom_image():
+    image_url = request.args.get('url')
+
+    if image_url is None:
+        return 'bad request!', 400
+
+    alpha = 0.4
+
+    # Get image
+    image = read_image(image_url, isUrl=True)
+
+    # Run prediction
+    mask = predict(image, model).astype(np.uint8)
+    image = image[0] * 255.0
+
+    # Convert it to grayscale
+    mask = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
+    annotation = image.copy()
+
+    # Apply cv2.threshold() to get a binary image
+    ret, thresh = cv2.threshold(mask, 50, 255, cv2.THRESH_BINARY)
+
+    # Find contours
+    contours, hierarchy = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+
+    # Scale contours
+    scaled_contours = []
+    for contour in contours:
+        scaled_contours.append(scale_contour(contour, 1.075))
+
+    h, w, _ = image.shape
+
+    # Draw contours
+    cv2.drawContours(annotation, scaled_contours, -1, (38, 166, 154, 0.1), math.floor(20 / (1225 / 966) * (h / w)), cv2.LINE_AA)
+
+    # Make contours a bit transparent
+    annotation = cv2.addWeighted(image, alpha, annotation, 1 - alpha, 0)
+
+    # Send prediction as JPEG
+    retval, buffer = cv2.imencode('.jpg', annotation.astype(np.uint8))
     response = make_response(buffer.tobytes())
     response.headers['Content-Type'] = 'image/jpeg'
 
