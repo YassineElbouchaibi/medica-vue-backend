@@ -1,9 +1,7 @@
 import math
-
 from flask import Flask, request, jsonify, send_file, make_response
 from flask_cors import CORS
 import os
-import base64
 from app.core_utils import *
 
 app = Flask(__name__)
