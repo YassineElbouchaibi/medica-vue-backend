@@ -11,7 +11,7 @@ docker pull ghcr.io/yassineelbouchaibi/medica-vue.backend:latest
 3. Start container (Replace <TEXT> with your values).
 ```sh
 docker run -d -p <PORT_ON_YOUR_LOCAL_MACHINE>:80 \
-  -v "<path/to/storage>":/storage \
+  -v "</absolute/path/to/storage>":/storage \
   -e STORAGE_ROOT=/storage \
   medica-vue.backend
 ```
