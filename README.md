@@ -182,6 +182,6 @@ Open an issue.
 [issues-shield]: https://img.shields.io/github/issues/YassineElbouchaibi/medica-vue-backend.svg?style=flat-square
 [issues-url]: https://github.com/YassineElbouchaibi/medica-vue-backend/issues
 [license-shield]: https://img.shields.io/github/license/YassineElbouchaibi/medica-vue-backend.svg?style=flat-square
-[license-url]: https://github.com/YassineElbouchaibi/medica-vue-backend/blob/master/LICENSE.txt
+[license-url]: https://github.com/YassineElbouchaibi/medica-vue-backend/blob/master/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/yassine-el-bouchaibi
