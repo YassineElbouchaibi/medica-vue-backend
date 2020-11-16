@@ -42,7 +42,7 @@ Here's a blank template to get started:
     ·
     <a href="https://github.com/YassineElbouchaibi/medica-vue-backend/issues">Request Feature</a>
     ·
-    <a href="https://github.com/YassineElbouchaibi/medica-vue-frontend"><strong>Frontend</strong></a>
+    <a href="https://github.com/YassineElbouchaibi/medica-vue-frontend">Frontend</a>
   </p>
 </p>
 
