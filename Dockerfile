@@ -9,3 +9,5 @@ COPY . /app
 
 RUN pip install --upgrade pip
 RUN pip --no-cache-dir install -r /var/www/requirements.txt
+
+EXPOSE 80
