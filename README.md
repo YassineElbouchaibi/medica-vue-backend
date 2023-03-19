@@ -100,7 +100,7 @@ This is an example of how to list things you need to use the software and how to
 
 1. Download app's static content (`storage` folder).
 ```sh
-ggID='1QA3KtlUjZuCGfO_DQ-rUKRWfO1noNxWg'  
+ggID='1ptCREx3GW6kHpRf7YxjjsvtF06lmDOMO'  
 ggURL='https://drive.google.com/uc?export=download'  
 filename="$(curl -sc /tmp/gcokie "${ggURL}&id=${ggID}" | grep -o '="uc-name.*</span>' | sed 's/.*">//;s/<.a> .*//')"  
 getcode="$(awk '/_warning_/ {print $NF}' /tmp/gcokie)"  
